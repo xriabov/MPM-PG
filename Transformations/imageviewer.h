@@ -53,7 +53,7 @@ private:
     void setPainter();
 
 
-    void (*drawLine)(QImage*, QPoint&, QPoint&, QColor&) = &Rasterization::lineDDA;
+    void (*drawLine)(QImage*, QPoint&, QPoint&, QColor&) = &Rasterization::lineBresenham;
 
 public slots:
     void paintEvent(QPaintEvent* event) Q_DECL_OVERRIDE;
