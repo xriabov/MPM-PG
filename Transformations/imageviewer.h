@@ -48,7 +48,6 @@ private:
     QList<QPoint> basePoints;
     QList<QPoint> points;
     QList<QPoint> cPoints;
-    QTransform transformMatrix;
     QColor color = Qt::black;
 
     bool ifMove = false;

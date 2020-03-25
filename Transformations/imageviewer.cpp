@@ -15,7 +15,6 @@ ImageViewer::ImageViewer(QSize size, QWidget *parent): QWidget(parent)
     this->setMaximumSize(size);
     this->resize(size);
     painter = new QPainter(img);
-    transformMatrix = QTransform();
 }
 
 void ImageViewer::paintEvent(QPaintEvent* event)
@@ -59,6 +58,8 @@ void ImageViewer::setPainter()
 void ImageViewer::drawPoints()
 {
     QPoint point1, point2;
+    if(points.isEmpty())
+        return;
     point1 = points.first();
     for(int i = 0; i < points.length(); i++){
         point2 = points[i];
@@ -249,7 +250,8 @@ void ImageViewer::shearL()
 
 void ImageViewer::resetTransform()
 {
-    transformMatrix.reset();
+    if(points.isEmpty() || basePoints.isEmpty())
+        return;
     points = basePoints;
     clear();
     drawPoints();
@@ -282,6 +284,8 @@ void ImageViewer::setColor(QColor color)
 
 void ImageViewer::clearPoints()
 {
+    if(basePoints.isEmpty() || points.isEmpty())
+        return;
     basePoints.clear();
     points.clear();
 }
