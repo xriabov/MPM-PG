@@ -12,6 +12,7 @@ Transformation::Transformation(QWidget *parent)
     ui->eraseButton->setEnabled(false);
     ui->changeColorButton->setEnabled(false);
     ui->transformationsBox->setEnabled(false);
+    ui->cEndButton->setEnabled(false);
     ui->frame->installEventFilter(this);
     // Widget setup
     new ImageViewer(ui->frame->size(), ui->frame);
@@ -63,11 +64,16 @@ bool Transformation::ImageViewerMove(ImageViewer* obj, QMouseEvent* event)
 
 bool Transformation::ImageViewerMouseButtonPress(ImageViewer* obj, QMouseEvent *event)
 {
-    if(!ui->drawButton->isEnabled())
+    if(!ui->cBeginButton->isEnabled())
+    {
+        obj->circlePoint(event->pos());
+        return true;
+    } else if(!ui->drawButton->isEnabled())
     {
         obj->moveBegin(event->pos());
         return true;
     }
+
     obj->addPoint(event->pos());
     obj->drawPoints();
 
@@ -177,4 +183,35 @@ void Transformation::on_shearLeftButton_clicked()
 void Transformation::on_resetButton_clicked()
 {
     getImageViewer()->resetTransform();
+}
+
+void Transformation::on_applyButton_clicked()
+{
+    if(ui->ddaButton->isChecked())
+        getImageViewer()->setRasterization(0);
+    else if(ui->bresenhamButton->isChecked())
+        getImageViewer()->setRasterization(1);
+}
+
+void Transformation::on_cBeginButton_clicked()
+{
+    ui->PolygonBox->setEnabled(false);
+    ui->transformationsBox->setEnabled(false);
+    ui->rasterizationGroup->setEnabled(false);
+    ui->cBeginButton->setEnabled(false);
+    ui->cEndButton->setEnabled(true);
+
+    getImageViewer()->clear();
+}
+
+void Transformation::on_cEndButton_clicked()
+{
+    ui->PolygonBox->setEnabled(true);
+    ui->transformationsBox->setEnabled(true);
+    ui->rasterizationGroup->setEnabled(true);
+    ui->cBeginButton->setEnabled(true);
+    ui->cEndButton->setEnabled(false);
+
+    getImageViewer()->clearCPoints();
+    on_eraseButton_clicked();
 }

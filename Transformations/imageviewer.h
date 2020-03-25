@@ -18,7 +18,11 @@ public:
     void completePolygon();
     void clear();
     void clearPoints();
+    void clearCPoints();
+    void setRasterization(int i);
 
+    void circlePoint(QPoint point);
+    void drawCircle();
     // Helpers
     inline int getPointsCount() { return basePoints.length(); }
 
@@ -43,6 +47,7 @@ private:
     QPainter* painter = nullptr;
     QList<QPoint> basePoints;
     QList<QPoint> points;
+    QList<QPoint> cPoints;
     QTransform transformMatrix;
     QColor color = Qt::black;
 
@@ -53,7 +58,8 @@ private:
     void setPainter();
 
 
-    void (*drawLine)(QImage*, QPoint&, QPoint&, QColor&) = &Rasterization::lineBresenham;
+    void (*drawLine)(QImage*, QPoint&, QPoint&, QColor&) = &Rasterization::lineDDA;
+    void (*drawC)(QImage*, QPoint&, QPoint&, QColor&) = &Rasterization::circleBresenham;
 
 public slots:
     void paintEvent(QPaintEvent* event) Q_DECL_OVERRIDE;

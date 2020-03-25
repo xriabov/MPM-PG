@@ -27,7 +27,7 @@ private:
     bool ImageViewerMouseButtonPress(ImageViewer* obj, QMouseEvent *event);
     bool ImageViewerMouseButtonRelease(ImageViewer* obj, QMouseEvent *event);
     bool ImageViewerWheel(ImageViewer* obj, QWheelEvent* event);
-
+    void setRasterizationAlgorithm(int num);
 
     ImageViewer* getImageViewer();
 private slots:
@@ -47,5 +47,10 @@ private slots:
     void on_shearLeftButton_clicked();
 
     void on_resetButton_clicked();
+
+    void on_applyButton_clicked();
+
+    void on_cBeginButton_clicked();
+    void on_cEndButton_clicked();
 };
 #endif // TRANSFORMATION_H

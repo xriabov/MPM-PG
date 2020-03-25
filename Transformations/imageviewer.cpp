@@ -38,6 +38,13 @@ void ImageViewer::addPoint(QPoint point)
     points.append(point);
 }
 
+void ImageViewer::circlePoint(QPoint point)
+{
+    cPoints.append(point);
+    if(cPoints.length() >= 2)
+        drawCircle();
+}
+
 void ImageViewer::setPainter()
 {
     QPen pen;
@@ -51,8 +58,6 @@ void ImageViewer::setPainter()
 
 void ImageViewer::drawPoints()
 {
-    setPainter();
-
     QPoint point1, point2;
     point1 = points.first();
     for(int i = 0; i < points.length(); i++){
@@ -65,11 +70,17 @@ void ImageViewer::drawPoints()
 
 void ImageViewer::completePolygon()
 {
-    setPainter();
     (*drawLine)(img, points.first(), points.last(), color);
     this->update();
 }
 
+void ImageViewer::drawCircle()
+{
+    if(cPoints.length() < 2)
+        return;
+    (*drawC)(img, cPoints[0], cPoints[1], color);
+    this->update();
+}
 
 // Transformations
 void ImageViewer::rotateClockwise()
@@ -275,7 +286,12 @@ void ImageViewer::clearPoints()
     points.clear();
 }
 
-
+void ImageViewer::clearCPoints()
+{
+    img->fill(Qt::white);
+    this->update();
+    cPoints.clear();
+}
 // Transpose
 
 void ImageViewer::moveBegin(QPoint point)
@@ -310,3 +326,16 @@ void ImageViewer::moveEnd()
 }
 
 
+void ImageViewer::setRasterization(int i)
+{
+    if(i == 0)
+        drawLine = Rasterization::lineDDA;
+    else if(i == 1)
+        drawLine = Rasterization::lineBresenham;
+    else
+        return;
+
+    clear();
+    drawPoints();
+    completePolygon();
+}
