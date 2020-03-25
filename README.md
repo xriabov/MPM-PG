@@ -1,6 +1,6 @@
 Repository for Computer Graphics class
 QT projects
 * Transformations
-	* Draw a polygon and apply different 2D transformations(translate, rotate, scale, shear)
+	* 2D polygon transformations(translate, rotate, scale, shear)
 	* Implemented DDA and Bresenham line rasterization algorithms
-	
+	* Bresenham circle algorithm
