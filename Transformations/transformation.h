@@ -8,6 +8,14 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class Transformation; }
 QT_END_NAMESPACE
 
+enum struct MODE
+{
+    POLY=1,
+    CRCL=2,
+    ELLI=4,
+    NONE=8
+};
+
 class Transformation : public QMainWindow
 {
     Q_OBJECT
@@ -30,6 +38,9 @@ private:
     void setRasterizationAlgorithm(int num);
 
     ImageViewer* getImageViewer();
+
+    // State
+    MODE mode;
 private slots:
     void on_drawButton_clicked();
     void on_eraseButton_clicked();
@@ -50,7 +61,14 @@ private slots:
 
     void on_applyButton_clicked();
 
+    // Circle
     void on_cBeginButton_clicked();
     void on_cEndButton_clicked();
+
+    // Ellipse
+    void on_eBeginButton_clicked();
+    void on_eClearButton_clicked();
 };
+
+
 #endif // TRANSFORMATION_H

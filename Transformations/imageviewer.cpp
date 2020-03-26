@@ -31,17 +31,12 @@ ImageViewer::~ImageViewer()
     delete painter;
 }
 
+
+// Polygon
 void ImageViewer::addPoint(QPoint point)
 {
     basePoints.append(point);
     points.append(point);
-}
-
-void ImageViewer::circlePoint(QPoint point)
-{
-    cPoints.append(point);
-    if(cPoints.length() >= 2)
-        drawCircle();
 }
 
 void ImageViewer::setPainter()
@@ -75,11 +70,42 @@ void ImageViewer::completePolygon()
     this->update();
 }
 
+// Circle
+void ImageViewer::circlePoint(QPoint point)
+{
+    cPoints.append(point);
+    if(cPoints.length() >= 2)
+        drawCircle();
+}
+
 void ImageViewer::drawCircle()
 {
     if(cPoints.length() < 2)
         return;
     (*drawC)(img, cPoints[0], cPoints[1], color);
+    this->update();
+}
+
+// Ellipse
+void ImageViewer::ellipsePoint(QPoint point, int a, int b)
+{
+    ePoints.append(point);
+    drawEllipse(a, b);
+}
+
+void ImageViewer::drawEllipse(int a, int b)
+{
+    for(int i = 0; i < ePoints.length(); i++)
+    {
+        (*drawE)(img, ePoints[i], a, b, color);
+    }
+    this->update();
+}
+
+void ImageViewer::clearEPoints()
+{
+    ePoints.clear();
+    clear();
     this->update();
 }
 
@@ -296,8 +322,8 @@ void ImageViewer::clearCPoints()
     this->update();
     cPoints.clear();
 }
-// Transpose
 
+// Transpose
 void ImageViewer::moveBegin(QPoint point)
 {
     ifMove = true;
@@ -329,7 +355,7 @@ void ImageViewer::moveEnd()
     ifMove = false;
 }
 
-
+// Set rasterization algorithm
 void ImageViewer::setRasterization(int i)
 {
     if(i == 0)
