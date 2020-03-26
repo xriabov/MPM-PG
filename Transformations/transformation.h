@@ -40,7 +40,7 @@ private:
     ImageViewer* getImageViewer();
 
     // State
-    MODE mode;
+    MODE mode = MODE::POLY;
 private slots:
     void on_drawButton_clicked();
     void on_eraseButton_clicked();

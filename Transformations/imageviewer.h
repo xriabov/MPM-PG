@@ -70,7 +70,7 @@ private:
 
     void (*drawLine)(QImage*, QPoint&, QPoint&, QColor&) = &Rasterization::lineDDA;
     void (*drawC)(QImage*, QPoint&, QPoint&, QColor&) = &Rasterization::circleBresenham;
-    void (*drawE)(QImage*, QPoint&, int, int, QColor&);
+    void (*drawE)(QImage*, QPoint&, int, int, QColor&) = &Rasterization::ellipseBresenham;
 
 public slots:
     void paintEvent(QPaintEvent* event) Q_DECL_OVERRIDE;

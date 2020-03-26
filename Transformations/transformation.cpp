@@ -81,24 +81,6 @@ bool Transformation::ImageViewerMouseButtonPress(ImageViewer* obj, QMouseEvent *
         break;
     }
     return true;
-//    if(mode == MODE::CRCL)
-//    {
-//        obj->circlePoint(event->pos());
-//        return true;
-//    } else if(mode == MODE::ELLI)
-//    {
-//        obj->ellipsePoint(event->pos(), ui->aSpinBox->value(), ui->bSpinBox->value());
-//        return true;
-//    } else if(mode == MODE::POLY)
-//    {
-//        obj->moveBegin(event->pos());
-//        return true;
-//    }
-
-//    obj->addPoint(event->pos());
-//    obj->drawPoints();
-
-//    return true;
 }
 
 bool Transformation::ImageViewerMouseButtonRelease(ImageViewer *obj, QMouseEvent *event)

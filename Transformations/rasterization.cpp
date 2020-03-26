@@ -64,7 +64,7 @@ void Rasterization::lineBresenham(QImage *img, QPoint &point1, QPoint &point2, Q
 
         if(d > 0)
         {
-            d -= 2 * dDecrement;
+            d -= dDecrement;
             x += xi;
             y += yi;
         } else{
@@ -73,7 +73,7 @@ void Rasterization::lineBresenham(QImage *img, QPoint &point1, QPoint &point2, Q
             else
                 y += yi;
         }
-        d += 2 * dIncrement;
+        d += dIncrement;
     }
 }
 
@@ -106,5 +106,60 @@ void Rasterization::circleBresenham(QImage *img, QPoint &point1, QPoint &point2,
         }
         d += 6 + 4*x;
         x++;
+    }
+}
+
+void Rasterization::ellipseBresenham(QImage *img, QPoint &center, int a, int b, QColor &color)
+{
+    QRgb colorRgb = color.rgba();
+    int x, y, x0, y0, d, val1, val2, xMax, yMax;
+    x0 = center.rx();
+    y0 = center.ry();
+
+    x = 0;
+    y = b;
+
+    xMax = a*a / (qSqrt(a*a + b*b));
+
+    d = 4*b*b + a*a - 4*a*a*b;
+    val1 = 4*b*b;
+    val2 = 4*a*a;
+
+
+    while(x <= xMax)
+    {
+        img->setPixel(x0 + x, y0 + y, colorRgb);
+        img->setPixel(x0 + x, y0 - y, colorRgb);
+        img->setPixel(x0 - x, y0 + y, colorRgb);
+        img->setPixel(x0 - x, y0 - y, colorRgb);
+
+        if(d > 0)
+        {
+            d -= val2*(2*y-1);
+            y--;
+        }
+        d += val1*(2*x+1);
+        x++;
+    }
+
+    d = 4*a*a + b*b - 4*b*b*a;
+
+    x = a;
+    y = 0;
+
+    while(x >= xMax)
+    {
+        img->setPixel(x0 + x, y0 + y, colorRgb);
+        img->setPixel(x0 + x, y0 - y, colorRgb);
+        img->setPixel(x0 - x, y0 + y, colorRgb);
+        img->setPixel(x0 - x, y0 - y, colorRgb);
+
+        if(d > 0)
+        {
+            d -= val1 * (2*x-1);
+            x--;
+        }
+        d += val2 * (2*y+1);
+        y++;
     }
 }
