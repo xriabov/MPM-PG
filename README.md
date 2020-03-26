@@ -3,4 +3,5 @@ QT projects
 * Transformations
 	* 2D polygon transformations(translate, rotate, scale, shear)
 	* Implemented DDA and Bresenham line rasterization algorithms
-	* Bresenham circle algorithm
+	* Bresenham circle algorithn
+	* Ellipse drawing
