@@ -250,5 +250,5 @@ void Transformation::on_eClearButton_clicked()
     ui->eBeginButton->setEnabled(true);
     ui->eClearButton->setEnabled(false);
 
-    getImageViewer()->clearEPoints();
+    getImageViewer()->clearEllipses();
 }

@@ -89,22 +89,23 @@ void ImageViewer::drawCircle()
 // Ellipse
 void ImageViewer::ellipsePoint(QPoint point, int a, int b)
 {
-    ePoints.append(point);
-    drawEllipse(a, b);
+    struct Ellipse ellipse;
+    ellipse.point = point;
+    ellipse.a = a;
+    ellipse.b = b;
+    ellipses.append(ellipse);
+    drawEllipse();
 }
 
-void ImageViewer::drawEllipse(int a, int b)
+void ImageViewer::drawEllipse()
 {
-    for(int i = 0; i < ePoints.length(); i++)
-    {
-        (*drawE)(img, ePoints[i], a, b, color);
-    }
+    (*drawE)(img, ellipses[ellipses.length()-1], color);
     this->update();
 }
 
-void ImageViewer::clearEPoints()
+void ImageViewer::clearEllipses()
 {
-    ePoints.clear();
+    ellipses.clear();
     clear();
     this->update();
 }

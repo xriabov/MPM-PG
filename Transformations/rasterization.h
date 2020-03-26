@@ -4,6 +4,7 @@
 #include <QImage>
 #include <QPoint>
 #include <QColor>
+#include "structures.h"
 
 class Rasterization
 {
@@ -18,6 +19,6 @@ public:
     static void circleBresenham(QImage *img, QPoint &point1, QPoint &point2, QColor &color);
 
     //Ellipse
-    static void ellipseBresenham(QImage *img, QPoint &center, int a, int b, QColor &color);
+    static void ellipseBresenham(QImage *img, struct Ellipse, QColor &color);
 };
 #endif // RASTERIZATIONALGOS_H

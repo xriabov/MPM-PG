@@ -19,11 +19,13 @@ SOURCES += \
     imageviewer.cpp \
     main.cpp \
     rasterization.cpp \
+    structures.cpp \
     transformation.cpp
 
 HEADERS += \
     imageviewer.h \
     rasterization.h \
+    structures.h \
     transformation.h
 
 FORMS += \

@@ -109,10 +109,14 @@ void Rasterization::circleBresenham(QImage *img, QPoint &point1, QPoint &point2,
     }
 }
 
-void Rasterization::ellipseBresenham(QImage *img, QPoint &center, int a, int b, QColor &color)
+void Rasterization::ellipseBresenham(QImage *img, struct Ellipse ellipse, QColor &color)
 {
+    QPoint center = ellipse.point;
+    int a = ellipse.a;
+    int b = ellipse.b;
+
     QRgb colorRgb = color.rgba();
-    int x, y, x0, y0, d, val1, val2, xMax, yMax;
+    int x, y, x0, y0, d, val1, val2, xMax;
     x0 = center.rx();
     y0 = center.ry();
 

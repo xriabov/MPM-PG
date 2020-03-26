@@ -3,6 +3,9 @@
 
 #include <QtWidgets>
 #include "rasterization.h"
+#include "structures.h"
+
+
 class ImageViewer : public QWidget
 {
     Q_OBJECT
@@ -28,8 +31,8 @@ public:
 
     //Ellipse
     void ellipsePoint(QPoint point, int a, int b);
-    void drawEllipse(int a, int b);
-    void clearEPoints();
+    void drawEllipse();
+    void clearEllipses();
 
     // Helpers
     inline int getPointsCount() { return basePoints.length(); }
@@ -58,7 +61,8 @@ private:
     QList<QPoint> basePoints;
     QList<QPoint> points;
     QList<QPoint> cPoints;
-    QList<QPoint> ePoints;
+    QList<struct Ellipse> ellipses;
+
 
     QColor color = Qt::black;
 
@@ -70,7 +74,7 @@ private:
 
     void (*drawLine)(QImage*, QPoint&, QPoint&, QColor&) = &Rasterization::lineDDA;
     void (*drawC)(QImage*, QPoint&, QPoint&, QColor&) = &Rasterization::circleBresenham;
-    void (*drawE)(QImage*, QPoint&, int, int, QColor&) = &Rasterization::ellipseBresenham;
+    void (*drawE)(QImage*, struct Ellipse, QColor&) = &Rasterization::ellipseBresenham;
 
 public slots:
     void paintEvent(QPaintEvent* event) Q_DECL_OVERRIDE;
