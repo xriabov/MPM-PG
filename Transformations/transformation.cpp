@@ -64,19 +64,22 @@ bool Transformation::ImageViewerMove(ImageViewer* obj, QMouseEvent* event)
 
 bool Transformation::ImageViewerMouseButtonPress(ImageViewer* obj, QMouseEvent *event)
 {
-    if(!ui->cBeginButton->isEnabled())
+    switch(mode)
     {
+    case MODE::CRCL:
         obj->circlePoint(event->pos());
-        return true;
-    } else if(!ui->drawButton->isEnabled())
-    {
+        break;
+    case MODE::ELLI:
+        obj->ellipsePoint(event->pos(), ui->aSpinBox->value(), ui->bSpinBox->value());
+        break;
+    case MODE::POLY:
+        obj->addPoint(event->pos());
+        obj->drawPoints();
+        break;
+    default:
         obj->moveBegin(event->pos());
-        return true;
+        break;
     }
-
-    obj->addPoint(event->pos());
-    obj->drawPoints();
-
     return true;
 }
 
@@ -113,7 +116,7 @@ void Transformation::on_drawButton_clicked()
     ui->changeColorButton->setEnabled(true);
     ui->eraseButton->setEnabled(true);
     ui->transformationsBox->setEnabled(true);
-
+    mode = MODE::NONE;
 }
 
 void Transformation::on_eraseButton_clicked()
@@ -195,9 +198,12 @@ void Transformation::on_applyButton_clicked()
 
 void Transformation::on_cBeginButton_clicked()
 {
+    mode = MODE::CRCL;
     ui->PolygonBox->setEnabled(false);
     ui->transformationsBox->setEnabled(false);
     ui->rasterizationGroup->setEnabled(false);
+    ui->ellipseGroup->setEnabled(false);
+
     ui->cBeginButton->setEnabled(false);
     ui->cEndButton->setEnabled(true);
 
@@ -206,12 +212,43 @@ void Transformation::on_cBeginButton_clicked()
 
 void Transformation::on_cEndButton_clicked()
 {
+    mode = MODE::POLY;
     ui->PolygonBox->setEnabled(true);
     ui->transformationsBox->setEnabled(true);
     ui->rasterizationGroup->setEnabled(true);
+    ui->ellipseGroup->setEnabled(true);
+
     ui->cBeginButton->setEnabled(true);
     ui->cEndButton->setEnabled(false);
 
     getImageViewer()->clearCPoints();
     on_eraseButton_clicked();
+}
+
+
+// Ellipse
+void Transformation::on_eBeginButton_clicked()
+{
+    mode = MODE::ELLI;
+    ui->PolygonBox->setEnabled(false);
+    ui->transformationsBox->setEnabled(false);
+    ui->rasterizationGroup->setEnabled(false);
+    ui->circleGroup->setEnabled(false);
+
+    ui->eBeginButton->setEnabled(false);
+    ui->eClearButton->setEnabled(true);
+}
+
+void Transformation::on_eClearButton_clicked()
+{
+    mode = MODE::POLY;
+    ui->PolygonBox->setEnabled(true);
+    ui->transformationsBox->setEnabled(true);
+    ui->rasterizationGroup->setEnabled(true);
+    ui->circleGroup->setEnabled(true);
+
+    ui->eBeginButton->setEnabled(true);
+    ui->eClearButton->setEnabled(false);
+
+    getImageViewer()->clearEPoints();
 }
