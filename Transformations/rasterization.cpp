@@ -49,7 +49,7 @@ void Rasterization::lineBresenham(QImage *img, QPoint &point1, QPoint &point2, Q
     xi = point2.rx() - point1.rx() >= 0 ? 1 : -1;
     yi = point2.ry() - point1.ry() >= 0 ? 1 : -1;
 
-    bool xAxis = abs(dx) > abs(dy);
+    bool xAxis = dx > dy;
     d = xAxis ? 2*dy - dx : 2*dx - dy;
     dDecrement = xAxis ? 2*dx : 2*dy;
     dIncrement = xAxis ? 2*dy : 2*dx;
@@ -57,10 +57,8 @@ void Rasterization::lineBresenham(QImage *img, QPoint &point1, QPoint &point2, Q
     xMax = img->size().rwidth();
     yMax = img->size().rheight();
 
-    while(true)
+    while(x != point2.rx() || y != point2.ry())
     {
-        if(x == point2.rx() && y == point2.ry())
-            break;
         if(x > 0 && x < xMax && y > 0 && y < yMax)
             img->setPixel(x, y, colorRgb);
 
@@ -92,15 +90,14 @@ void Rasterization::circleBresenham(QImage *img, QPoint &point1, QPoint &point2,
 
     while(x <= y)
     {
-
-            img->setPixel(x + x0, y + y0, colorRgb);
-            img->setPixel(x + x0, -y + y0, colorRgb);
-            img->setPixel(y + x0, x + y0, colorRgb);
-            img->setPixel(y + x0, -x + y0, colorRgb);
-            img->setPixel(-x + x0, y + y0, colorRgb);
-            img->setPixel(-x + x0, -y + y0, colorRgb);
-            img->setPixel(-y + x0, x + y0, colorRgb);
-            img->setPixel(-y + x0, -x + y0, colorRgb);
+        img->setPixel(x + x0, y + y0, colorRgb);
+        img->setPixel(x + x0, -y + y0, colorRgb);
+        img->setPixel(y + x0, x + y0, colorRgb);
+        img->setPixel(y + x0, -x + y0, colorRgb);
+        img->setPixel(-x + x0, y + y0, colorRgb);
+        img->setPixel(-x + x0, -y + y0, colorRgb);
+        img->setPixel(-y + x0, x + y0, colorRgb);
+        img->setPixel(-y + x0, -x + y0, colorRgb);
 
         if(d > 0)
         {
