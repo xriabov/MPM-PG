@@ -106,11 +106,13 @@ bool Transformation::ImageViewerWheel(ImageViewer* obj, QWheelEvent* event)
 // Slots
 void Transformation::on_drawButton_clicked()
 {
-    if(static_cast<ImageViewer*>(ui->frame->children()[0])->getPointsCount() < 3)
+    if(getImageViewer()->getPointsCount() < 3)
         return;
 
     ImageViewer* w = getImageViewer();
     w->completePolygon();
+    w->fillPoly();
+
 
     ui->drawButton->setEnabled(false);
     ui->changeColorButton->setEnabled(true);

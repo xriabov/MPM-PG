@@ -70,6 +70,35 @@ void ImageViewer::completePolygon()
     this->update();
 }
 
+// Scanline
+void ImageViewer::fillPoly()
+{
+    addEdges();
+
+
+}
+
+void ImageViewer::addEdges()
+{
+    for(int i = 0; i < points.length()-1; i++)
+    {
+        QPoint point1 = points[i];
+        QPoint point2 = points[i+1];
+
+        if(point1.ry() == point2.ry())
+            continue;
+
+        Edge edge(point1, point2);
+
+        if(edges.isEmpty())
+            edges.append(edge);
+        else
+            for(int j = 0; j < edges.length(); j++)
+                if(edges[j] < edge)
+                    edges.insert(j, edge);
+    }
+}
+
 // Circle
 void ImageViewer::circlePoint(QPoint point)
 {

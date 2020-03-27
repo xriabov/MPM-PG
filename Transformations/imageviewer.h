@@ -17,6 +17,10 @@ public:
     void addPoint(QPoint point);
     void setColor(QColor color);
 
+    // Scanline
+    void fillPoly();
+    void addEdges();
+
     // Drawing
     void drawPoints();
     void completePolygon();
@@ -65,6 +69,8 @@ private:
     QList<struct Circle> circles;
     QList<struct Ellipse> ellipses;
 
+    QList<struct Edge> edges;
+    QList<struct Edge> edgesActive;
 
     QColor color = Qt::black;
 
