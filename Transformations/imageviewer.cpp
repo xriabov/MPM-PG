@@ -73,17 +73,32 @@ void ImageViewer::completePolygon()
 // Circle
 void ImageViewer::circlePoint(QPoint point)
 {
-    cPoints.append(point);
-    if(cPoints.length() >= 2)
+    if(pointBuffer)
+    {
+        circles.last().r = static_cast<int>(qSqrt(qPow(point.rx() - pointBuffer->rx(), 2) + qPow(point.ry() - pointBuffer->ry(), 2)));
+        pointBuffer = nullptr;
         drawCircle();
+    } else
+    {
+        struct Circle circle;
+        circle.center = point;
+        circles.append(circle);
+        pointBuffer = &circles.last().center;
+    }
 }
 
 void ImageViewer::drawCircle()
 {
-    if(cPoints.length() < 2)
-        return;
-    (*drawC)(img, cPoints[0], cPoints[1], color);
+    (*drawC)(img, circles.last(), color);
     this->update();
+}
+
+void ImageViewer::clearCircles()
+{
+    clear();
+    circles.clear();
+    if(pointBuffer)
+        pointBuffer = nullptr;
 }
 
 // Ellipse
@@ -317,12 +332,7 @@ void ImageViewer::clearPoints()
     points.clear();
 }
 
-void ImageViewer::clearCPoints()
-{
-    img->fill(Qt::white);
-    this->update();
-    cPoints.clear();
-}
+
 
 // Transpose
 void ImageViewer::moveBegin(QPoint point)

@@ -27,7 +27,7 @@ public:
     //Circle
     void circlePoint(QPoint point);
     void drawCircle();
-    void clearCPoints();
+    void clearCircles();
 
     //Ellipse
     void ellipsePoint(QPoint point, int a, int b);
@@ -60,7 +60,9 @@ private:
 
     QList<QPoint> basePoints;
     QList<QPoint> points;
-    QList<QPoint> cPoints;
+
+    QPoint *pointBuffer = nullptr;
+    QList<struct Circle> circles;
     QList<struct Ellipse> ellipses;
 
 
@@ -73,7 +75,7 @@ private:
     void setPainter();
 
     void (*drawLine)(QImage*, QPoint&, QPoint&, QColor&) = &Rasterization::lineDDA;
-    void (*drawC)(QImage*, QPoint&, QPoint&, QColor&) = &Rasterization::circleBresenham;
+    void (*drawC)(QImage*, struct Circle, QColor&) = &Rasterization::circleBresenham;
     void (*drawE)(QImage*, struct Ellipse, QColor&) = &Rasterization::ellipseBresenham;
 
 public slots:

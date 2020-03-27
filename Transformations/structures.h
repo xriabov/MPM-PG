@@ -11,7 +11,8 @@ struct Ellipse
 
 struct Circle
 {
-    QPoint point1, point2;
+    QPoint center;
+    int r;
 };
 
 #endif // STRUCTURES_H

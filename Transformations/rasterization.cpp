@@ -77,13 +77,14 @@ void Rasterization::lineBresenham(QImage *img, QPoint &point1, QPoint &point2, Q
     }
 }
 
-void Rasterization::circleBresenham(QImage *img, QPoint &point1, QPoint &point2, QColor &color)
+void Rasterization::circleBresenham(QImage *img, struct Circle circle, QColor &color)
 {
     QRgb colorRgb = color.rgba();
     int x, y, x0, y0, r, d;
-    r = static_cast<int>(qSqrt(qPow(point2.rx() - point1.rx(), 2) + qPow(point2.ry() - point1.ry(), 2)));
-    x0 = point1.rx();
-    y0 = point1.ry();
+
+    r = circle.r;
+    x0 = circle.center.rx();
+    y0 = circle.center.ry();
     x = 0;
     y = r;
     d = 3 - 2*r;

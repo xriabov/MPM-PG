@@ -221,7 +221,7 @@ void Transformation::on_cEndButton_clicked()
     ui->cBeginButton->setEnabled(true);
     ui->cEndButton->setEnabled(false);
 
-    getImageViewer()->clearCPoints();
+    getImageViewer()->clearCircles();
     on_eraseButton_clicked();
 }
 

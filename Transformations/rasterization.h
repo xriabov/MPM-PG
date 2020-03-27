@@ -16,7 +16,7 @@ public:
     static void lineBresenham(QImage *img, QPoint &point1, QPoint &point2, QColor &color);
 
     // Circle
-    static void circleBresenham(QImage *img, QPoint &point1, QPoint &point2, QColor &color);
+    static void circleBresenham(QImage *img, struct Circle, QColor &color);
 
     //Ellipse
     static void ellipseBresenham(QImage *img, struct Ellipse, QColor &color);
