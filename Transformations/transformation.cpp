@@ -111,7 +111,6 @@ void Transformation::on_drawButton_clicked()
 
     ImageViewer* w = getImageViewer();
     w->completePolygon();
-    w->fillPoly();
 
 
     ui->drawButton->setEnabled(false);
@@ -133,6 +132,7 @@ void Transformation::on_eraseButton_clicked()
     ui->changeColorButton->setEnabled(false);
     ui->transformationsBox->setEnabled(false);
     ui->frame->installEventFilter(this);
+    mode = MODE::POLY;
 }
 
 void Transformation::on_changeColorButton_clicked()

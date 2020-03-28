@@ -20,6 +20,8 @@ public:
     // Scanline
     void fillPoly();
     void addEdges();
+    void updateEdgesActive(int y);
+    void clearEdges();
 
     // Drawing
     void drawPoints();
@@ -69,8 +71,8 @@ private:
     QList<struct Circle> circles;
     QList<struct Ellipse> ellipses;
 
-    QList<struct Edge> edges;
-    QList<struct Edge> edgesActive;
+    QList<Edge> edges;
+    QList<int> edgesActive;
 
     QColor color = Qt::black;
 

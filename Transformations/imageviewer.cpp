@@ -67,6 +67,7 @@ void ImageViewer::drawPoints()
 void ImageViewer::completePolygon()
 {
     (*drawLine)(img, points.first(), points.last(), color);
+    fillPoly();
     this->update();
 }
 
@@ -74,16 +75,48 @@ void ImageViewer::completePolygon()
 void ImageViewer::fillPoly()
 {
     addEdges();
+    if(edges.isEmpty())
+        return;
 
+    int x, y;
+    QList<int> xForRow;
+    y = edges.first().getPoint().ry();
+    while(true)
+    {
+        updateEdgesActive(y);
+        if(edgesActive.isEmpty())
+            break;
+        if(y < 0)
+        {
+            y++;
+            continue;
+        } else if(y >= img->size().rheight())
+            break;
+
+        for(int i = 0; i < edgesActive.length(); i++)
+        {
+            x = edges[edgesActive[i]].getW() * (y-edges[edgesActive[i]].getPoint().ry()) + edges[edgesActive[i]].getPoint().rx();
+            xForRow.append(x);
+        }
+        std::sort(xForRow.begin(), xForRow.end());
+
+        if(xForRow.length() % 2 == 0)
+            for(int i = 0; i < xForRow.length()-1; i += 2)
+                for(x = xForRow[i] < 0 ? 0 : xForRow[i]; x < (xForRow[i+1] < img->size().rwidth() ? xForRow[i+1] : img->size().rwidth()); x++)
+                    img->setPixel(x, y, color.rgba());
+
+        xForRow.clear();
+        y++;
+    }
 
 }
 
 void ImageViewer::addEdges()
 {
-    for(int i = 0; i < points.length()-1; i++)
+    for(int i = 0; i < points.length(); i++)
     {
         QPoint point1 = points[i];
-        QPoint point2 = points[i+1];
+        QPoint point2 = i == points.length()-1 ? points.first() : points[i+1];
 
         if(point1.ry() == point2.ry())
             continue;
@@ -93,10 +126,39 @@ void ImageViewer::addEdges()
         if(edges.isEmpty())
             edges.append(edge);
         else
-            for(int j = 0; j < edges.length(); j++)
-                if(edges[j] < edge)
+        {
+            int j;
+            for(j = 0; j < edges.length(); j++)
+                if(edge < edges[j])
+                {
                     edges.insert(j, edge);
+                    break;
+                }
+            if(j == edges.length())
+                edges.append(edge);
+        }
     }
+}
+
+void ImageViewer::updateEdgesActive(int y)
+{
+    for(int i = 0; i < edgesActive.length(); i++)
+        if(edges[edgesActive[i]].getYEnd() < y)
+        {
+            edgesActive.removeAt(i);
+            i--;
+        }
+    for(int i = edgesActive.isEmpty() ? 0 : edgesActive.last(); i < edges.length(); i++)
+    {
+        if(edges[i].getPoint().ry() == y)
+            edgesActive.append(i);
+    }
+}
+
+void ImageViewer::clearEdges()
+{
+    edges.clear();
+    edgesActive.clear();
 }
 
 // Circle
@@ -331,6 +393,7 @@ void ImageViewer::resetTransform()
 
 void ImageViewer::clear()
 {
+    clearEdges();
     img->fill(Qt::white);
     this->update();
 }
@@ -359,6 +422,7 @@ void ImageViewer::clearPoints()
         return;
     basePoints.clear();
     points.clear();
+    clearEdges();
 }
 
 
