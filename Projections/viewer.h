@@ -6,7 +6,7 @@
 class Point
 {
 private:
-    double xPos, yPos, zPos, w = 1;
+    double xPos, yPos, zPos, w = 1.;
 
 public:
     inline Point() {}

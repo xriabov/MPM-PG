@@ -169,7 +169,7 @@ void Viewer::projectionCenter()
 
 double* Viewer::projectParallel()
 {
-    double FoV = 2*M_PI/3;
+    double FoV = M_PI/6;
     double c, f;
     double w, h;
     w = 2.;
@@ -177,27 +177,26 @@ double* Viewer::projectParallel()
     c = 0.1;
     f = 1;
     return new double[16] {
-        2.0/w, 0, 0, 0,
-        0, 2.0/h, 0, 0,
-        0, 0, 1.0/(c-f), -1,
-        0, 0, c/(c-f), 0
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 1, 0,
+        0, 0, 0, 1
     };
 }
 
 double* Viewer::projectCenter()
 {
-    double FoV = 2*M_PI/3;
+    double FoV = 60;
     double c, f;
-    double w, h;
-    h = 1/qTan(FoV/2.);
-    w = h / (16/9);
-    c = 0.1;
-    f = 1;
+    double h;
+    h = 1/qTan(FoV*M_PI/360);
+    c = 1;
+    f = 3;
     return new double[16] {
-        w, 0, 0, 0,
+        h, 0, 0, 0,
         0, h, 0, 0,
-        0, 0, f/(c-f), -1,
-        0, 0, (c*f)/(c-f), 0
+        0, 0, -f/(f-c), -1.,
+        0, 0, -(c*f)/(f-c), 0
     };
 }
 
