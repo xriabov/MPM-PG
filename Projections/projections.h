@@ -2,6 +2,7 @@
 #define PROJECTIONS_H
 
 #include <QMainWindow>
+#include "viewer.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Projections; }
@@ -17,11 +18,14 @@ public:
 
 private:
     Ui::Projections *ui;
+    Viewer* viewerWidget;
 
+    void project();
 private slots:
     void on_azimuth_valueChanged(int az);
     void on_zenith_valueChanged(int ze);
     void on_projectionType_currentIndexChanged(int type);
     void on_distance_valueChanged(int di);
+
 };
 #endif // PROJECTIONS_H

@@ -14,77 +14,130 @@
    <string>Projections</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="2" column="2">
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>Azimuth</string>
-      </property>
-     </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>314</x>
+      <y>476</y>
+      <width>50</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Azimuth</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="azimuth">
+    <property name="geometry">
+     <rect>
+      <x>466</x>
+      <y>476</y>
+      <width>131</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>360</number>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="zenith">
+    <property name="geometry">
+     <rect>
+      <x>466</x>
+      <y>507</y>
+      <width>131</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>180</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>314</x>
+      <y>507</y>
+      <width>38</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Zenith</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="projectionType">
+    <property name="geometry">
+     <rect>
+      <x>161</x>
+      <y>476</y>
+      <width>141</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Parallel</string>
+     </property>
     </item>
-    <item row="2" column="3">
-     <widget class="QSpinBox" name="azimuth">
-      <property name="maximum">
-       <number>360</number>
-      </property>
-     </widget>
+    <item>
+     <property name="text">
+      <string>Center</string>
+     </property>
     </item>
-    <item row="3" column="3">
-     <widget class="QSpinBox" name="zenith">
-      <property name="maximum">
-       <number>180</number>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="2">
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>Zenith</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1">
-     <widget class="QComboBox" name="projectionType">
-      <item>
-       <property name="text">
-        <string>Parallel</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Center</string>
-       </property>
-      </item>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>Projection type</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0" colspan="4">
-     <widget class="QFrame" name="frame">
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="1">
-     <widget class="QSpinBox" name="distance"/>
-    </item>
-    <item row="3" column="0">
-     <widget class="QLabel" name="label_4">
-      <property name="text">
-       <string>Distance</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>476</y>
+      <width>91</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Projection type</string>
+    </property>
+   </widget>
+   <widget class="QFrame" name="frame">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>9</y>
+      <width>603</width>
+      <height>461</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="distance">
+    <property name="geometry">
+     <rect>
+      <x>161</x>
+      <y>507</y>
+      <width>141</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>507</y>
+      <width>53</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Distance</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
