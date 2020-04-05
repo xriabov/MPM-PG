@@ -134,10 +134,6 @@ void Viewer::paintEvent(QPaintEvent* event)
 
 void Viewer::projectionParallel()
 {
-    //V// Compute projection plane
-    // //
-    // // Project every point to this plane
-    // // Print corresponding edges using projected points
     Points = basePoints;
 
     calcCameraVectors();
@@ -183,8 +179,8 @@ double* Viewer::projectParallel()
     return new double[16] {
         1., 0, 0, 0,
         0, 1., 0, 0,
-        0, 0, -1./(f-c), -1,
-        0, 0, -c/(f-c), 0
+        0, 0, -1./(f-c), 0,
+        0, 0, -c/(f-c), 1
     };
 }
 
@@ -233,6 +229,7 @@ void Viewer::print()
     }
     this->update();
 }
+
 void Viewer::printLine(Point& p1, Point& p2)
 {
     int x, y, xi, yi, dx, dy, d, dDecrement, dIncrement, xMax, yMax;
