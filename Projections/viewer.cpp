@@ -91,6 +91,14 @@ Point& Point::operator +(const Point& vect)
     return *this;
 }
 
+Point& Point::operator *(const int& scalar)
+{
+    xPos *= scalar;
+    yPos *= scalar;
+    zPos *= scalar;
+    return *this;
+}
+
 // // Viewer
 
 Viewer::Viewer(QSize size, QWidget *parent):
@@ -169,18 +177,14 @@ void Viewer::projectionCenter()
 
 double* Viewer::projectParallel()
 {
-    double FoV = M_PI/6;
-    double c, f;
-    double w, h;
-    w = 2.;
-    h = w/(16/9);
-    c = 0.1;
-    f = 1;
+    double c = 1;
+    double f = 5;
+
     return new double[16] {
-        1, 0, 0, 0,
-        0, 1, 0, 0,
-        0, 0, 1, 0,
-        0, 0, 0, 1
+        1., 0, 0, 0,
+        0, 1., 0, 0,
+        0, 0, -1./(f-c), -1,
+        0, 0, -c/(f-c), 0
     };
 }
 
@@ -191,7 +195,7 @@ double* Viewer::projectCenter()
     double h;
     h = 1/qTan(FoV*M_PI/360);
     c = 1;
-    f = 3;
+    f = 5;
     return new double[16] {
         h, 0, 0, 0,
         0, h, 0, 0,
@@ -202,11 +206,15 @@ double* Viewer::projectCenter()
 
 double* Viewer::cameraTransform()
 {
+    Point x, y, z;
+    z = camera.v1;
+    x = camera.v3;
+    y = camera.v2;
     return new double[16] {
-            camera.v1.x(), camera.v2.x(), camera.v3.x(), 0,
-            camera.v1.y(), camera.v2.y(), camera.v3.y(), 0,
-            camera.v1.z(), camera.v2.z(), camera.v3.z(), 0,
-            camera.pos.x(), camera.pos.y(), camera.pos.z(), 1};
+            x.x(), y.x(), z.x(), 0,
+            x.y(), y.y(), z.y(), 0,
+            x.z(), y.z(), z.z(), 0,
+            -Point::dotProduct(x, camera.pos), -Point::dotProduct(y, camera.pos), -Point::dotProduct(z, camera.pos), 1};
 }
 
 
@@ -218,7 +226,10 @@ void Viewer::print()
     {
         Point first = Points[Edges[i].firstP];
         Point second = Points[Edges[i].secondP];
-        printLine(first, second);
+        if(isinf(first.rz()) || isinf(second.rz()) ||
+                first.rz() < 0 || first.rz() > 1 || second.rz() < 0 || second.rz() > 1) // Add normal clipping
+            continue;
+        printLine(first*100, second*100); // There should have been window-viewport transformation
     }
     this->update();
 }
@@ -312,7 +323,7 @@ void Viewer::setCameraPos(Point pos)
 
 void Viewer::calcCameraVectors()
 {
-    camera.v1.setSpherical(1, az, ze);
+    camera.v1.setSpherical(-1, az, ze);
     camera.v1 = Point::norm(camera.v1);
     camera.v2 = Point::norm(Point::vectorProduct(Point::vectorProduct(camera.v1, Point(0,1,0)), camera.v1));
     camera.v3 = Point::norm(Point::vectorProduct(camera.v1, camera.v2));

@@ -35,6 +35,7 @@ public:
 
     Point& operator -(const Point& vect);
     Point& operator +(const Point& vect);
+    Point& operator *(const int& scalar);
 };
 
 struct Edge
@@ -64,7 +65,7 @@ private:
 
     double az = 0;
     double ze = 0;
-    int di = 0;
+    int di = 1;
 
     Camera camera;
 

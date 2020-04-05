@@ -9,14 +9,14 @@ Projections::Projections(QWidget *parent)
     ui->setupUi(this);
     viewerWidget = new Viewer(ui->frame->size(), ui->frame);
     viewerWidget->loadPoints(QList<Point>{
-                                Point(0, 0, 0),
-                                Point(100, 0, 0),
-                                Point(0, 100, 0),
-                                Point(100, 100, 0),
-                                Point(0, 0, 100),
-                                Point(100, 0, 100),
-                                Point(0, 100, 100),
-                                Point(100, 100, 100)
+                                Point(-1, -1, 2),
+                                Point(1, -1, 2),
+                                Point(-1, 1, 2),
+                                Point(1, 1, 2),
+                                Point(-1, -1, 4),
+                                Point(1, -1, 4),
+                                Point(-1, 1, 4),
+                                Point(1, 1, 4)
                           });
 
     viewerWidget->loadEdges(QList<Edge> {
