@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>621</width>
-    <height>585</height>
+    <width>562</width>
+    <height>662</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,10 +17,10 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>314</x>
-      <y>476</y>
+      <x>310</x>
+      <y>560</y>
       <width>50</width>
-      <height>16</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -30,36 +30,42 @@
    <widget class="QSpinBox" name="azimuth">
     <property name="geometry">
      <rect>
-      <x>466</x>
-      <y>476</y>
-      <width>131</width>
+      <x>370</x>
+      <y>560</y>
+      <width>171</width>
       <height>25</height>
      </rect>
     </property>
     <property name="maximum">
      <number>360</number>
     </property>
+    <property name="singleStep">
+     <number>5</number>
+    </property>
    </widget>
    <widget class="QSpinBox" name="zenith">
     <property name="geometry">
      <rect>
-      <x>466</x>
-      <y>507</y>
-      <width>131</width>
+      <x>370</x>
+      <y>590</y>
+      <width>171</width>
       <height>25</height>
      </rect>
     </property>
     <property name="maximum">
      <number>180</number>
     </property>
+    <property name="singleStep">
+     <number>5</number>
+    </property>
    </widget>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>314</x>
-      <y>507</y>
+      <x>310</x>
+      <y>590</y>
       <width>38</width>
-      <height>16</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -69,9 +75,9 @@
    <widget class="QComboBox" name="projectionType">
     <property name="geometry">
      <rect>
-      <x>161</x>
-      <y>476</y>
-      <width>141</width>
+      <x>130</x>
+      <y>560</y>
+      <width>171</width>
       <height>24</height>
      </rect>
     </property>
@@ -89,10 +95,10 @@
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>9</x>
-      <y>476</y>
+      <x>20</x>
+      <y>560</y>
       <width>91</width>
-      <height>16</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -104,8 +110,8 @@
      <rect>
       <x>9</x>
       <y>9</y>
-      <width>603</width>
-      <height>461</height>
+      <width>541</width>
+      <height>541</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -118,9 +124,9 @@
    <widget class="QSpinBox" name="distance">
     <property name="geometry">
      <rect>
-      <x>161</x>
-      <y>507</y>
-      <width>141</width>
+      <x>130</x>
+      <y>590</y>
+      <width>171</width>
       <height>25</height>
      </rect>
     </property>
@@ -128,10 +134,10 @@
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>9</x>
-      <y>507</y>
+      <x>20</x>
+      <y>590</y>
       <width>53</width>
-      <height>16</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -144,12 +150,30 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>621</width>
+     <width>562</width>
      <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionGenerate_sphere"/>
+    <addaction name="actionOpen_file"/>
+   </widget>
+   <addaction name="menuFile"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionGenerate_sphere">
+   <property name="text">
+    <string>Generate sphere</string>
+   </property>
+  </action>
+  <action name="actionOpen_file">
+   <property name="text">
+    <string>Open file</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
