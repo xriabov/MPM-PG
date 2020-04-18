@@ -20,8 +20,6 @@ private:
     Ui::Projections *ui;
     Viewer* viewerWidget;
 
-    void project();
-
 private slots:
     void on_azimuth_valueChanged(int az);
     void on_zenith_valueChanged(int ze);

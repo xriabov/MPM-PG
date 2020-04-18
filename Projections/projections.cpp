@@ -34,7 +34,7 @@ Projections::Projections(QWidget *parent)
                                 Edge {3, 7},
                             });
 
-    viewerWidget->projectionParallel();
+    viewerWidget->projection();
 }
 
 Projections::~Projections()
@@ -45,34 +45,26 @@ Projections::~Projections()
 void Projections::on_azimuth_valueChanged(int az)
 {
     viewerWidget->setAzimuth(az);
-    project();
+    viewerWidget->projection();
 }
 void Projections::on_zenith_valueChanged(int ze)
 {
     viewerWidget->setZenith(ze);
-    project();
+    viewerWidget->projection();
 }
 void Projections::on_projectionType_currentIndexChanged(int type)
 {
     if(type == 0)
-        viewerWidget->projectionParallel();
+        viewerWidget->setProjection(ProjectionType::PARALLEL);
     else if(type == 1)
-        viewerWidget->projectionCenter();
+        viewerWidget->setProjection(ProjectionType::CENTER);
+    viewerWidget->projection();
 }
 void Projections::on_distance_valueChanged(int di)
 {
     viewerWidget->setDistance(di);
-    project();
+    viewerWidget->projection();
 }
-
-void Projections::project()
-{
-    if(ui->projectionType->currentIndex() == 0)
-        viewerWidget->projectionParallel();
-    else if(ui->projectionType->currentIndex() == 1)
-        viewerWidget->projectionCenter();
-}
-
 void Projections::on_actionGenerate_sphere_triggered()
 {
     bool status;
@@ -256,5 +248,5 @@ void Projections::on_actionOpen_file_triggered()
             viewerWidget->loadEdges(Edges);
         }
     }
-    project();
+    viewerWidget->projection();
 }

@@ -3,6 +3,12 @@
 
 #include <QtWidgets>
 
+enum ProjectionType
+{
+    PARALLEL = 1,
+    CENTER = 2
+};
+
 class Point
 {
 private:
@@ -67,7 +73,9 @@ private:
 
     double az = 0.;
     double ze = 0.;
-    double di = 0.;
+    double di = 1.;
+
+    ProjectionType type = ProjectionType::PARALLEL;
 
     Camera camera;
 
@@ -83,8 +91,9 @@ private:
     void applyTransformation(double* matrix);
 
     double* camTranspose();
+    double* camTransposeCenter();
     double* camX();
-    //double* camY();
+    // double* camY();
     double* camZ();
 
     double* clipping();
@@ -103,8 +112,8 @@ public:
     void setZenith(int zenith);
     void setDistance(int distance);
 
-    void projectionParallel();
-    void projectionCenter();
+    void setProjection(ProjectionType type);
+    void projection();
 
     void loadPoints(QList<Point> points);
     void loadEdges(QList<Edge> edges);

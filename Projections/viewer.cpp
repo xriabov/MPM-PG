@@ -105,7 +105,7 @@ Point Point::operator *(const double& scalar)
             );
 }
 
-// // Viewer
+//  // Viewer
 
 Viewer::Viewer(QSize size, QWidget *parent):
     QWidget(parent)
@@ -137,8 +137,7 @@ void Viewer::paintEvent(QPaintEvent* event)
     painter.drawImage(area, *img, area);
 }
 
-
-void Viewer::projectionParallel()
+void Viewer::projection()
 {
     Points = basePoints;
 
@@ -149,47 +148,10 @@ void Viewer::projectionParallel()
 
     calcCameraVectors();
 
-
-    matrix = camZ();
-    applyTransformation(matrix);
-    delete[] matrix;
-    matrix = camX();
-    applyTransformation(matrix);
-    delete[] matrix;
-
-//    matrix = cameraTransform();
-//    applyTransformation(matrix);
-//    delete[] matrix;
-
-    matrix = projectParallel();
-    applyTransformation(matrix);
-    delete[] matrix;
-
-    // Clipping
-
-    // Window-viewport transformation
-    viewportTransform();
-
-
-    if(!Edges.isEmpty())
-        printLines();
-    //if(!Polygons.isEmpty())
-    //    printPoly();
-}
-
-void Viewer::projectionCenter()
-{
-    Points = basePoints;
-
-    double* matrix;
-    matrix = worldTransform(-0.5, -0.5, 1);
-    applyTransformation(matrix);
-    delete[] matrix;
-
-    calcCameraVectors();
-
-
-    matrix = camTranspose();
+    if(type == ProjectionType::PARALLEL)
+        matrix = camTranspose();
+    else if(type == ProjectionType::CENTER)
+        matrix = camTransposeCenter();
     applyTransformation(matrix);
     delete[] matrix;
 
@@ -201,13 +163,11 @@ void Viewer::projectionCenter()
     applyTransformation(matrix);
     delete[] matrix;
 
+    if(type == ProjectionType::PARALLEL)
+        matrix = projectParallel();
+    else if(type == ProjectionType::CENTER)
+        matrix = projectCenter();
 
-
-    //matrix = cameraTransform();
-    //applyTransformation(matrix);
-    //delete[] matrix;
-
-    matrix = projectCenter();
     applyTransformation(matrix);
     delete[] matrix;
 
@@ -254,8 +214,8 @@ double* Viewer::projectCenter()
     c = 0.2;
     f = 5;
     return new double[16] {
-        h, 0, 0, 0,
-        0, h, 0, 0,
+        di, 0, 0, 0,
+        0, di, 0, 0,
         0, 0, -f/(f-c), -1.,
         0, 0, -(c*f)/(f-c), 0
     };
@@ -265,9 +225,6 @@ double* Viewer::cameraTransform()
 {
     Point x(camera.v3), y(camera.v2), z(camera.v1);
     double dx, dy, dz;
-    //dx = -Point::dotProduct(x, camera.pos);
-    //dy = -Point::dotProduct(y, camera.pos);
-    //dz = -Point::dotProduct(z, camera.pos);
     dx = camera.pos.x();
     dy = camera.pos.y();
     dz = camera.pos.z();
@@ -289,6 +246,18 @@ double* Viewer::cameraTransform()
 double* Viewer::camTranspose()
 {
     Point p = camera.pos;
+    return new double[16] {
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 1, 0,
+        -p.x(), -p.y(), -p.z(), 1
+    };
+}
+double* Viewer::camTransposeCenter()
+{
+    Point p;
+    p.setSpherical(di, ze, az);
+    p = camera.pos - p;
     return new double[16] {
         1, 0, 0, 0,
         0, 1, 0, 0,
@@ -422,6 +391,10 @@ void Viewer::applyTransformation(double* matrix)
     }
 }
 
+void Viewer::setProjection(ProjectionType type)
+{
+    this->type = type;
+}
 
 void Viewer::setAzimuth(int azimuth)
 {
@@ -437,7 +410,6 @@ void Viewer::setZenith(int zenith)
 
 void Viewer::setDistance(int distance)
 {
-    camera.pos = Point(camera.pos.x(), camera.pos.y(), -distance/10.);
     di = distance;
 }
 

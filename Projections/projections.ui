@@ -6,112 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>562</width>
-    <height>662</height>
+    <width>1051</width>
+    <height>592</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Projections</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>310</x>
-      <y>560</y>
-      <width>50</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Azimuth</string>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="azimuth">
-    <property name="geometry">
-     <rect>
-      <x>370</x>
-      <y>560</y>
-      <width>171</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="maximum">
-     <number>360</number>
-    </property>
-    <property name="singleStep">
-     <number>5</number>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="zenith">
-    <property name="geometry">
-     <rect>
-      <x>370</x>
-      <y>590</y>
-      <width>171</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="maximum">
-     <number>180</number>
-    </property>
-    <property name="singleStep">
-     <number>5</number>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>310</x>
-      <y>590</y>
-      <width>38</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Zenith</string>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="projectionType">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>560</y>
-      <width>171</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <item>
-     <property name="text">
-      <string>Parallel</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Center</string>
-     </property>
-    </item>
-   </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>560</y>
-      <width>91</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Projection type</string>
-    </property>
-   </widget>
    <widget class="QFrame" name="frame">
     <property name="geometry">
      <rect>
-      <x>9</x>
+      <x>279</x>
       <y>9</y>
-      <width>541</width>
-      <height>541</height>
+      <width>761</width>
+      <height>531</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -121,28 +30,143 @@
      <enum>QFrame::Raised</enum>
     </property>
    </widget>
-   <widget class="QSpinBox" name="distance">
+   <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>590</y>
-      <width>171</width>
-      <height>25</height>
+      <x>10</x>
+      <y>10</y>
+      <width>261</width>
+      <height>531</height>
      </rect>
     </property>
-   </widget>
-   <widget class="QLabel" name="label_4">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>590</y>
-      <width>53</width>
-      <height>21</height>
-     </rect>
+    <property name="currentIndex">
+     <number>0</number>
     </property>
-    <property name="text">
-     <string>Distance</string>
-    </property>
+    <widget class="QWidget" name="cameraTab">
+     <attribute name="title">
+      <string>Camera</string>
+     </attribute>
+     <layout class="QFormLayout" name="formLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>x</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QSpinBox" name="spinBox"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_7">
+        <property name="text">
+         <string>z</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Azimuth</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QSpinBox" name="azimuth">
+        <property name="maximum">
+         <number>360</number>
+        </property>
+        <property name="singleStep">
+         <number>5</number>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Zenith</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QSpinBox" name="zenith">
+        <property name="maximum">
+         <number>180</number>
+        </property>
+        <property name="singleStep">
+         <number>5</number>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0" colspan="2">
+       <widget class="Line" name="line">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Projection type</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1">
+       <widget class="QComboBox" name="projectionType">
+        <item>
+         <property name="text">
+          <string>Parallel</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Center</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>Distance</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="1">
+       <widget class="QSpinBox" name="distance">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>y</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QSpinBox" name="spinBox_2"/>
+      </item>
+      <item row="2" column="1">
+       <widget class="QSpinBox" name="spinBox_3"/>
+      </item>
+      <item row="3" column="0" colspan="2">
+       <widget class="Line" name="line_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="lightTab">
+     <attribute name="title">
+      <string>Light</string>
+     </attribute>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -150,7 +174,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>562</width>
+     <width>1051</width>
      <height>22</height>
     </rect>
    </property>
