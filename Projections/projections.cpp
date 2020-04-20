@@ -42,6 +42,21 @@ Projections::~Projections()
     delete ui;
 }
 
+void Projections::on_xCPos_valueChanged(double x)
+{
+    viewerWidget->setXCamera(x);
+    viewerWidget->projection();
+}
+void Projections::on_yCPos_valueChanged(double y)
+{
+    viewerWidget->setYCamera(y);
+    viewerWidget->projection();
+}
+void Projections::on_zCPos_valueChanged(double z)
+{
+    viewerWidget->setZCamera(z);
+    viewerWidget->projection();
+}
 void Projections::on_azimuth_valueChanged(int az)
 {
     viewerWidget->setAzimuth(az);
@@ -52,6 +67,7 @@ void Projections::on_zenith_valueChanged(int ze)
     viewerWidget->setZenith(ze);
     viewerWidget->projection();
 }
+
 void Projections::on_projectionType_currentIndexChanged(int type)
 {
     if(type == 0)
@@ -65,6 +81,8 @@ void Projections::on_distance_valueChanged(int di)
     viewerWidget->setDistance(di);
     viewerWidget->projection();
 }
+
+
 void Projections::on_actionGenerate_sphere_triggered()
 {
     bool status;
@@ -178,7 +196,6 @@ void Projections::on_actionGenerate_sphere_triggered()
     // Close file
     file.close();
 }
-
 void Projections::on_actionOpen_file_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(this, "Open .vtk file", QString(), "*.vtk");

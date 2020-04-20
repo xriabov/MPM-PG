@@ -2,48 +2,13 @@
 #define VIEWER_H
 
 #include <QtWidgets>
+#include "point.h"
 
 enum ProjectionType
 {
     PARALLEL = 1,
     CENTER = 2
 };
-
-class Point
-{
-private:
-    double xPos, yPos, zPos, w = 1.;
-
-public:
-    inline Point() {}
-    Point(double xPos, double yPos, double zPos);
-    Point(const Point& point);
-
-    inline double& rx() { return xPos; }
-    inline double& ry() { return yPos; }
-    inline double& rz() { return zPos; }
-    inline double x() { return xPos; }
-    inline double y() { return yPos; }
-    inline double z() { return zPos; }
-
-    void setSpherical(double p, double az, double ze);
-    void setCartesian(double x, double y, double z);
-
-    void homogeneousToCartesian();
-
-    void transform(double a[16]);
-
-    static Point vectorProduct(const Point& vector1, const Point& vector2);
-    static double dotProduct(const Point& vector1, const Point& vector2);
-    static double len(const Point& vect);
-    static Point norm(const Point& vect);
-
-
-    Point operator -(const Point& vect);
-    Point operator +(const Point& vect);
-    Point operator *(const double& scalar);
-};
-
 
 struct Edge
 {
@@ -93,7 +58,6 @@ private:
     double* camTranspose();
     double* camTransposeCenter();
     double* camX();
-    // double* camY();
     double* camZ();
 
     double* clipping();
@@ -108,11 +72,15 @@ public:
     Viewer(QSize size, QWidget *parent = nullptr);
     ~Viewer() Q_DECL_OVERRIDE;
 
+    void setXCamera(double x);
+    void setYCamera(double y);
+    void setZCamera(double z);
     void setAzimuth(int azimuth);
     void setZenith(int zenith);
-    void setDistance(int distance);
 
+    void setDistance(int distance);
     void setProjection(ProjectionType type);
+
     void projection();
 
     void loadPoints(QList<Point> points);

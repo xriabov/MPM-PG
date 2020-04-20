@@ -21,10 +21,15 @@ private:
     Viewer* viewerWidget;
 
 private slots:
+    void on_xCPos_valueChanged(double x);
+    void on_yCPos_valueChanged(double y);
+    void on_zCPos_valueChanged(double z);
     void on_azimuth_valueChanged(int az);
     void on_zenith_valueChanged(int ze);
+
     void on_projectionType_currentIndexChanged(int type);
     void on_distance_valueChanged(int di);
+
     void on_actionGenerate_sphere_triggered();
     void on_actionOpen_file_triggered();
 };

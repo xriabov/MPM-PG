@@ -1,111 +1,5 @@
 ﻿#include "viewer.h"
-
-
-// // Point
-
-Point::Point(double x, double y, double z)
-{
-    xPos = x;
-    yPos = y;
-    zPos = z;
-}
-
-Point::Point(const Point& point)
-{
-    xPos = point.xPos;
-    yPos = point.yPos;
-    zPos = point.zPos;
-}
-
-void Point::setSpherical(double p, double az, double ze)
-{
-    xPos = p * qSin(qDegreesToRadians(ze)) * qCos(qDegreesToRadians(az));
-    yPos = p * qSin(qDegreesToRadians(ze)) * qSin(qDegreesToRadians(az));
-    zPos = p * qCos(qDegreesToRadians(ze));
-}
-
-void Point::setCartesian(double x, double y, double z)
-{
-    xPos = x;
-    yPos = y;
-    zPos = z;
-}
-
-void Point::transform(double *a)
-{
-    double x, y, z;
-    x = a[0] * xPos + a[4] * yPos + a[8] * zPos + a[12];
-    y = a[1] * xPos + a[5] * yPos + a[9] * zPos + a[13];
-    z = a[2] * xPos + a[6] * yPos + a[10] * zPos + a[14];
-    w = a[3] * xPos + a[7] * yPos + a[11] * zPos + a[15];
-    xPos = x;
-    yPos = y;
-    zPos = z;
-}
-
-void Point::homogeneousToCartesian()
-{
-    xPos /= w;
-    yPos /= w;
-    zPos /= w;
-    w /= w;
-}
-
-Point Point::vectorProduct(const Point& v1, const Point& v2)
-{
-    return Point(
-                v1.yPos * v2.zPos - v1.zPos * v2.yPos,
-                v1.zPos * v2.xPos - v1.xPos * v2.zPos,
-                v1.xPos * v2.yPos - v1.yPos * v2.xPos);
-}
-
-double Point::dotProduct(const Point& v1, const Point& v2)
-{
-    return qSqrt(v1.xPos * v2.xPos + v1.yPos * v2.yPos + v1.zPos * v2.zPos);
-}
-
-double Point::len(const Point& vect)
-{
-    return dotProduct(vect, vect);
-}
-
-Point Point::norm(const Point& vect)
-{
-    double length = len(vect);
-    return Point(vect.xPos/length, vect.yPos/length, vect.zPos/length);
-}
-
-Point Point::operator -(const Point& vect)
-{
-    return Point
-            (
-                this->xPos - vect.xPos,
-                this->yPos - vect.yPos,
-                this->zPos - vect.zPos
-            );
-}
-
-Point Point::operator +(const Point& vect)
-{
-    return Point
-            (
-                this->xPos + vect.xPos,
-                this->yPos + vect.yPos,
-                this->zPos + vect.zPos
-            );
-}
-
-Point Point::operator *(const double& scalar)
-{
-    return Point
-            (
-                this->xPos * scalar,
-                this->yPos * scalar,
-                this->zPos * scalar
-            );
-}
-
-//  // Viewer
+#include "point.h"
 
 Viewer::Viewer(QSize size, QWidget *parent):
     QWidget(parent)
@@ -142,7 +36,7 @@ void Viewer::projection()
     Points = basePoints;
 
     double* matrix;
-    matrix = worldTransform(-0.5, -0.5, 1);
+    matrix = worldTransform(-0.5, -0.5, 2);
     applyTransformation(matrix);
     delete[] matrix;
 
@@ -196,10 +90,11 @@ double* Viewer::projectParallel()
 {
     double c = 0.2;
     double f = 10;
+    double scaleY = 1.*size.rwidth()/size.rheight();
 
     return new double[16] {
         1., 0, 0, 0,
-        0, 1., 0, 0,
+        0, 1.*scaleY, 0, 0,
         0, 0, -1./(f-c), 0,
         0, 0, -c/(f-c), -1
     };
@@ -210,12 +105,13 @@ double* Viewer::projectCenter()
     double FoV = 60;
     double c, f;
     double h;
+    double scaleY = 1.*size.rwidth()/size.rheight();
     h = 1/qTan(FoV*M_PI/360);
     c = 0.2;
     f = 5;
     return new double[16] {
         di, 0, 0, 0,
-        0, di, 0, 0,
+        0, di*scaleY, 0, 0,
         0, 0, -f/(f-c), -1.,
         0, 0, -(c*f)/(f-c), 0
     };
@@ -250,19 +146,19 @@ double* Viewer::camTranspose()
         1, 0, 0, 0,
         0, 1, 0, 0,
         0, 0, 1, 0,
-        -p.x(), -p.y(), -p.z(), 1
+        p.x(), p.y(), -p.z(), 1
     };
 }
 double* Viewer::camTransposeCenter()
 {
     Point p;
-    p.setSpherical(di, ze, az);
+    p.setSpherical(di, az, ze);
     p = camera.pos - p;
     return new double[16] {
         1, 0, 0, 0,
         0, 1, 0, 0,
         0, 0, 1, 0,
-        -p.x(), -p.y(), -p.z(), 1
+        p.x(), p.y(), -p.z(), 1
     };
 }
 
@@ -280,8 +176,8 @@ double* Viewer::camZ()
 {
     double azimuth = qDegreesToRadians(az);
     return new double[16] {
-        qCos(azimuth), -qSin(azimuth), 0, 0,
-        qSin(azimuth), qCos(azimuth), 0, 0,
+        qCos(azimuth), qSin(azimuth), 0, 0,
+        -qSin(azimuth), qCos(azimuth), 0, 0,
         0, 0, 1, 0,
         0, 0, 0, 1
     };
@@ -394,6 +290,19 @@ void Viewer::applyTransformation(double* matrix)
 void Viewer::setProjection(ProjectionType type)
 {
     this->type = type;
+}
+
+void Viewer::setXCamera(double x)
+{
+    camera.pos.setCartesian(x, camera.pos.y(), camera.pos.z());
+}
+void Viewer::setYCamera(double y)
+{
+    camera.pos.setCartesian(camera.pos.x(), y, camera.pos.z());
+}
+void Viewer::setZCamera(double z)
+{
+    camera.pos.setCartesian(camera.pos.x(), camera.pos.y(), z);
 }
 
 void Viewer::setAzimuth(int azimuth)
