@@ -42,6 +42,63 @@ Projections::~Projections()
     delete ui;
 }
 
+
+void Projections::on_displayBox_currentIndexChanged(int type)
+{
+    if(type == 0)
+        viewerWidget->displayType = DisplayType::POLYGON;
+    else if(type == 1)
+        viewerWidget->displayType = DisplayType::WIREFRAME;
+
+    viewerWidget->projection();
+}
+void Projections::on_shadingBox_currentIndexChanged(int type)
+{
+    if(type == 0)
+        viewerWidget->shadingType = ShadingType::GOURAUD;
+    else if(type == 1)
+        viewerWidget->shadingType = ShadingType::FLAT;
+
+    viewerWidget->projection();
+}
+
+
+void Projections::on_worldX_valueChanged(double x)
+{
+    viewerWidget->worldX = x;
+    viewerWidget->projection();
+}
+
+void Projections::on_worldY_valueChanged(double y)
+{
+    viewerWidget->worldY = y;
+    viewerWidget->projection();
+}
+
+void Projections::on_worldZ_valueChanged(double z)
+{
+    viewerWidget->worldZ = z;
+    viewerWidget->projection();
+}
+
+void Projections::on_worldAz_valueChanged(int az)
+{
+    viewerWidget->worldAz = az;
+    viewerWidget->projection();
+}
+
+void Projections::on_worldZe_valueChanged(int ze)
+{
+    viewerWidget->worldZe = ze;
+    viewerWidget->projection();
+}
+
+void Projections::on_worldScale_valueChanged(double scale)
+{
+    viewerWidget->worldScale = scale;
+    viewerWidget->projection();
+}
+
 void Projections::on_xCPos_valueChanged(double x)
 {
     viewerWidget->setXCamera(x);
@@ -265,5 +322,99 @@ void Projections::on_actionOpen_file_triggered()
             viewerWidget->loadEdges(Edges);
         }
     }
+    viewerWidget->projection();
+}
+
+
+
+void Projections::on_lightId_valueChanged(int i)
+{
+    Point pos = viewerWidget->getLight()[i].getBase();
+    ui->xLPos->setValue(pos.x());
+    ui->yLPos->setValue(pos.y());
+    ui->zLPos->setValue(pos.z());
+}
+
+void Projections::on_lightAdd_clicked()
+{
+    viewerWidget->getLight().append(Light());
+    int id = viewerWidget->getLight().length()-1;
+    ui->lightId->setMaximum(id);
+    ui->lightId->setValue(id);
+    ui->xLPos->setValue(0);
+    ui->yLPos->setValue(0);
+    ui->zLPos->setValue(0);
+}
+
+void Projections::on_xLPos_valueChanged(double x)
+{
+    viewerWidget->getLight()[ui->lightId->value()].setX(x);
+    viewerWidget->projection();
+}
+void Projections::on_yLPos_valueChanged(double y)
+{
+    viewerWidget->getLight()[ui->lightId->value()].setY(y);
+    viewerWidget->projection();
+}
+void Projections::on_zLPos_valueChanged(double z)
+{
+    viewerWidget->getLight()[ui->lightId->value()].setZ(z);
+    viewerWidget->projection();
+}
+
+void Projections::on_azimuthL_valueChanged(int az)
+{
+    viewerWidget->getLight()[ui->lightId->value()].setAz(az);
+    viewerWidget->projection();
+}
+void Projections::on_zenithL_valueChanged(int ze)
+{
+    viewerWidget->getLight()[ui->lightId->value()].setZe(ze);
+    viewerWidget->projection();
+}
+
+void Projections::on_lightType_currentIndexChanged(int id)
+{
+    if(id == 0)
+        viewerWidget->getLight()[ui->lightId->value()].setType(LightType::POINT);
+    if(id == 1)
+        viewerWidget->getLight()[ui->lightId->value()].setType(LightType::PARALLEL);
+    viewerWidget->projection();
+}
+
+void Projections::on_ra_clicked()
+{
+    QColor color = QColorDialog::getColor(Qt::white, this);
+    viewerWidget->getLight()[0].setrA(color);
+    viewerWidget->projection();
+}
+void Projections::on_rd_clicked()
+{
+    QColor color = QColorDialog::getColor(Qt::white, this);
+    viewerWidget->getLight()[ui->lightId->value()].setrD(color);
+    viewerWidget->projection();
+}
+void Projections::on_rs_clicked()
+{
+    QColor color = QColorDialog::getColor(Qt::white, this);
+    viewerWidget->getLight()[ui->lightId->value()].setrS(color);
+    viewerWidget->projection();
+}
+void Projections::on_h_valueChanged(double h)
+{
+    viewerWidget->getLight()[ui->lightId->value()].setH(h);
+    viewerWidget->projection();
+}
+
+void Projections::on_colorButton_clicked()
+{
+    QColor color = QColorDialog::getColor(Qt::white, this);
+    viewerWidget->getLight()[ui->lightId->value()].setColor(color);
+    viewerWidget->projection();
+}
+void Projections::on_ambColorButton_clicked()
+{
+    QColor color = QColorDialog::getColor(Qt::white, this);
+    viewerWidget->getLight()[0].setAmbColor(color);
     viewerWidget->projection();
 }
